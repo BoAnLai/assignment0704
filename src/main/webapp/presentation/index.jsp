@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.data.employee.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +19,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 	<h1>hello assignment0704</h1>
-		
+	<% 
+		EmployeeService empSvc = new EmployeeService();
+		List<EmployeeVO> empList = empSvc.getAll();
+
+		for(EmployeeVO emp:empList){
+			System.out.println(emp);
+			System.out.println("inside for loop");			
+		}
+	%>	
 	
 	
 	<script>
