@@ -16,7 +16,7 @@ import com.data.employee.EmployeeVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @MultipartConfig
-@WebServlet(name = "Employee", urlPatterns = { "/api/employees" })
+@WebServlet(name = "Employee", urlPatterns = { "/api/employees", "/api/employee/setSeat" })
 public class Employee extends HttpServlet{
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -39,6 +39,25 @@ public class Employee extends HttpServlet{
 				e.printStackTrace();
 			}
 		}
-
+	}
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		if (req.getServletPath().equals("/api/employee/setSeat")) {
+			
+			System.out.println(req.getServletPath());
+			
+//			ObjectMapper objMapper = new ObjectMapper();
+//
+//			try {
+//				String json = objMapper.writeValueAsString("reply");
+//
+//				res.setContentType("application/json");
+//				PrintWriter out = res.getWriter();
+//				out.print(json);
+//				out.flush();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+		}
 	}
 }

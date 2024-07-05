@@ -45,12 +45,10 @@
 	%>
 
 	<div class="dropdown">
-		<button class="btn btn-outline-secondary dropdown-toggle" type="button"
+		<button id="selectEmp" class="btn btn-outline-secondary dropdown-toggle" type="button"
 			data-bs-toggle="dropdown" aria-expanded="false">選擇員工</button>
 		<ul class="dropdown-menu">
-			<li><a class="dropdown-item" href="#">Action</a></li>
-			<li><a class="dropdown-item" href="#">Another action</a></li>
-			<li><a class="dropdown-item" href="#">Something else here</a></li>
+			<li><a id="removeEmp" class='dropdown-item' href='#'>清空座位</a></li>
 		</ul>
 	</div>
 
@@ -67,103 +65,20 @@
 	
 	<br>
 	
-	<button type="button" class="btn btn-primary">送出</button>
+	<button id="submit" type="button" class="btn btn-primary">送出</button>
 
 
 
 	<!-- drawing seating chart -->
-	<script>
-	
-	function addFloorToChart(floorRow,floorNo){
-		floorRow.push(floorNo);
-		let floorDivStr = "<div class='floorContainer' data-floor=\"" + floorNo + "\"></div>";
-		
-		let floorDiv = $(floorDivStr);
-		$("#seatingChartContainer").append(floorDiv);
-	}
-	
-	function addSeatToChart(floorNo, seatNo){
-		
-		let text = floorNo + "樓: 座位" + seatNo;
-		let seatDivStr = "<div class='seat btn btn-secondary' data-seat=\"" + seatNo + "\">" + text + "</div>";
-		let seatDiv = $(seatDivStr);
-		
-		let selector = ".floorContainer[data-floor='" + floorNo + "']";
-		$(selector).append(seatDiv);
-		
-	}
-	
-   $(document).ready(function () {
-	   $.ajax({
-	        url: "/assignment0704/api/seatingChart",
-	        type: "GET",
-	        dataType: "json",
-	        success: function (data) { 
-	        	
-        		let floorRow = [];
-        		
-	        	data.forEach((seat)=>{
-	        		let floorSeatSeq = seat.floorSeatSeq;
-	        		let floorNo = seat.floorNo;
-	        		let seatNo = seat.seatNo;
-	        		
-	        		if(floorRow.includes(floorNo)){
-	        			addSeatToChart(seat.floorNo,seat.seatNo);
-	        		}else{
-	        			// add floor
-						addFloorToChart(floorRow, floorNo);
-						addSeatToChart(seat.floorNo,seat.seatNo);
-	        		}
-	        	})
-	        	
-	        	insertDbEmpToSeat();
-	        	
-        },
-	        error: function (xhr, status, error) {
-	          console.error('AJAX request failed:', error);
-	        }
-	      });
-	    });
-
-   </script>
+	<script src="js/drawSeatingChart.js"></script>
    
    <!-- insert emp seating info already in db -->
-   	<script>
-   	
-   	function insertDbEmpToSeat(){   		
-		   $.ajax({
-		        url: "/assignment0704/api/employees",
-		        type: "GET",
-		        dataType: "json",
-		        success: function (data) {
-		        	console.log("emp ajax respose success");
-		        	console.log(data);
-	        		
-		        	data.forEach((emp)=>{
-		        		let empId = emp.empId;
-		        		let floorSeatSeq = emp.floorSeatSeq;
-		        		if(floorSeatSeq){
-							let floorNo = floorSeatSeq.split('-')[0];
-							let seatNo = floorSeatSeq.split('-')[1];
-							
-							let selector = ".floorContainer[data-floor='" + floorNo + "'] .seat[data-seat='" + seatNo + "']";
-							let seat = $(selector);
-							
-							seat.removeClass("btn-secondary");
-							seat.addClass("btn-danger");
-							
-							let text = floorNo + "樓: 座位" + seatNo +"[員編:" + empId + "]"
-							seat.text(text);
-		        		}
-		        		console.log("");
-		        	})
-	        },
-		        error: function (xhr, status, error) {
-		          console.error('AJAX request failed:', error);
-		        }
-		      });
-   	}
-	</script>
+   <!-- list all emp to dropdown -->
+   	<script src="js/insertDbEmpToSeat.js"></script>
+
+	<script src="js/addClickEventListener.js"></script>
+
+	<script src="js/changeSeatColor.js"></script>
 
 </body>
 </html>
