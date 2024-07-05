@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @MultipartConfig
 @WebServlet(name = "Employee", urlPatterns = { "/api/employees", "/api/employee/setSeat" })
-public class Employee extends HttpServlet{
+public class Employee extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -40,24 +40,43 @@ public class Employee extends HttpServlet{
 			}
 		}
 	}
-	
+
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if (req.getServletPath().equals("/api/employee/setSeat")) {
-			
-			System.out.println(req.getServletPath());
-			
-//			ObjectMapper objMapper = new ObjectMapper();
-//
-//			try {
-//				String json = objMapper.writeValueAsString("reply");
-//
-//				res.setContentType("application/json");
-//				PrintWriter out = res.getWriter();
-//				out.print(json);
-//				out.flush();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
+
+			EmployeeService empSvc = new EmployeeService();
+
+			String action = req.getParameter("action");
+			String floorSeatSeq = req.getParameter("seatSelected");
+
+			System.out.println(action);
+			System.out.println(floorSeatSeq);
+
+			if (action.isEmpty() || floorSeatSeq.isEmpty()) {
+				res.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+				return;
+			}
+
+			if (action.equals("清空座位")) {
+				empSvc.removeSeat(floorSeatSeq);
+			} else {
+				Integer empId = Integer.valueOf(action);
+				empSvc.setSeat(empId, floorSeatSeq);
+			}
+
+			List<EmployeeVO> empList = empSvc.getAll();
+			ObjectMapper objMapper = new ObjectMapper();
+
+			try {
+				String json = objMapper.writeValueAsString(empList);
+
+				res.setContentType("application/json");
+				PrintWriter out = res.getWriter();
+				out.print(json);
+				out.flush();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

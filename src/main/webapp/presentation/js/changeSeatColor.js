@@ -2,6 +2,7 @@
  * 
  */
 
+
 function changeSeat(floorNo, seatNo, empId) {
 
 	let text = floorNo + "樓: 座位" + seatNo

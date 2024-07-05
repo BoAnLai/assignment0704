@@ -4,12 +4,15 @@
 var action = ""; //empId or "清空座位"
 var seatSelected = "";
 
-function addClickEventListener(){
-    $('.dropdown-item').click(function() {
-        action = $(this).text();		
+function addDropdownEventListener(){
+	$('.dropdown-item').click(function() {
+	    action = $(this).text();		
 		$("#selectEmp").text(action);
-    });
-	
+	});	
+}
+
+function addSeatEventListener(){
+
 	$('.seat').click(function(){
 		
 		// 尚未選擇座位 > 選擇座位
@@ -45,28 +48,13 @@ function addSubmitEventListener(){
 			data: jsonForSubmit,
 			dataType: "json",
 			success: function(data) {
-/*
-				data.forEach((emp) => {
-					let empId = emp.empId;
-					let floorSeatSeq = emp.floorSeatSeq;
-
-					let dropdownItemStr = "<li><a class='dropdown-item' href='#'>" + empId + "</a></li>"
-					let dropdownItem = $(dropdownItemStr);
-					$("ul.dropdown-menu").append(dropdownItem);
-
-					if (floorSeatSeq) {
-						let floorNo = floorSeatSeq.split('-')[0];
-						let seatNo = floorSeatSeq.split('-')[1];
-
-						changeSeat(floorNo, seatNo, empId);
-					}
-				})
-				
-				addClickEventListener();
-				*/
+				resetSeatingChart();
 			},
 			error: function(xhr, status, error) {
-				console.error('AJAX request failed:', error);
+				console.error('AJAX request failed:');
+				console.error("請選擇員工編號/清空座位，並點選座位。");
+				alert("請選擇員工編號(或清空座位選項)，並點選一個座位。");
+				resetSeatingChart();
 			}
 		})
 

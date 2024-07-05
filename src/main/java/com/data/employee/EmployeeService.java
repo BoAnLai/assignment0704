@@ -1,5 +1,6 @@
 package com.data.employee;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -15,4 +16,16 @@ public class EmployeeService {
 		return dao.getAll();
 	}
 	
+	public void removeSeat(String floorSeatSeq) {
+		try {
+			dao.removeSeat(floorSeatSeq);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setSeat(Integer empId, String floorSeatSeq) {
+		dao.cleanSeatIfOccupied(floorSeatSeq);
+		dao.setSeat(empId, floorSeatSeq);
+	}
 }

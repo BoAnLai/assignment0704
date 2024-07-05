@@ -63,6 +63,29 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS remove_employee_seat;
+DELIMITER //
+CREATE PROCEDURE remove_employee_seat(IN floorseatseq VARCHAR(10))
+BEGIN
+    UPDATE employee SET floor_seat_seq = null WHERE floor_seat_seq = floorseatseq;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS set_employee_seat;
+DELIMITER //
+CREATE PROCEDURE set_employee_seat(IN empid INT, IN floorseatseq VARCHAR(10))
+BEGIN
+    UPDATE employee SET floor_seat_seq = floorseatseq WHERE emp_id = empid;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS clean_seat_if_occupied;
+DELIMITER //
+CREATE PROCEDURE clean_seat_if_occupied(IN floorseatseq VARCHAR(10))
+BEGIN
+    UPDATE employee SET floor_seat_seq = null WHERE floor_seat_seq = floorseatseq;
+END //
+DELIMITER ;
 
 SELECT * FROM employee;
 SELECT * FROM seating_chart;

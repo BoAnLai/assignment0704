@@ -1,0 +1,8 @@
+/**
+ * 
+ */
+function resetSeatingChart(){
+	clearSeatingChartContainer();
+	insertSeatingChart();
+	
+ }

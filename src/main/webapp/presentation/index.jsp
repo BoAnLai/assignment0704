@@ -68,15 +68,17 @@
 	<button id="submit" type="button" class="btn btn-primary">送出</button>
 
 
+	<script src="js/pageInit.js"></script>
+	<script src="js/resetSeatingChart.js"></script>
 
 	<!-- drawing seating chart -->
-	<script src="js/drawSeatingChart.js"></script>
+	<script src="js/insertSeat.js"></script>
    
    <!-- insert emp seating info already in db -->
    <!-- list all emp to dropdown -->
-   	<script src="js/insertDbEmpToSeat.js"></script>
+   	<script src="js/insertEmp.js"></script>
 
-	<script src="js/addClickEventListener.js"></script>
+	<script src="js/addEventListener.js"></script>
 
 	<script src="js/changeSeatColor.js"></script>
 
