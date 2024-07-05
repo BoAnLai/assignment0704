@@ -2,7 +2,7 @@ package com.data.employee;
 
 public class EmployeeVO implements java.io.Serializable{
 
-	private Integer employeeId;
+	private Integer empId;
 	private String name;
 	private String email;
 	private String floorSeatSeq;	
@@ -11,12 +11,12 @@ public class EmployeeVO implements java.io.Serializable{
 		super();
 	}
 
-	public Integer getEmployeeId() {
-		return employeeId;
+	public Integer getEmpId() {
+		return empId;
 	}
 
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
+	public void setEmpId(Integer employeeId) {
+		this.empId = employeeId;
 	}
 
 	public String getName() {
@@ -47,7 +47,7 @@ public class EmployeeVO implements java.io.Serializable{
 	public String toString() {
 		String outputStr = "Employee: [";
 		
-		outputStr += "\r employeeId="+ this.getEmployeeId();
+		outputStr += "\r empId="+ this.getEmpId();
 		outputStr += "\r name="+ this.getName();
 		outputStr += "\r email="+ this.getEmail();
 		outputStr += "\r floorSeatSeq="+ this.getFloorSeatSeq();		

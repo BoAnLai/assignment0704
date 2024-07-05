@@ -28,7 +28,6 @@ public class SeatingChart extends HttpServlet {
 		
 		try {
 			String json = objMapper.writeValueAsString(seatList);
-			System.out.println(json);
 			
 			res.setContentType("application/json");
 			PrintWriter out = res.getWriter();

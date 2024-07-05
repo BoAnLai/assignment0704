@@ -1,7 +1,7 @@
 package com.data.employee;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,58 +24,42 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 		}
 	}
 
-	private static final String GET_ALL_STMT = "SELECT * FROM employee";
 	@Override
 	public List<EmployeeVO> getAll() {
 		// TODO Auto-generated method stub
 		List<EmployeeVO> empList = new ArrayList();
 		EmployeeVO emp = null;
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		
+		CallableStatement callableStatement = null;
+		String sql = "{CALL get_all_employee}";
 		ResultSet rs = null;
 		
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ALL_STMT);
-			rs = pstmt.executeQuery();
+			callableStatement = con.prepareCall(sql);
+			rs = callableStatement.executeQuery();
 			
 			while(rs.next()) {
 				emp = new EmployeeVO();
-				
-				emp.setEmployeeId(rs.getInt(1));
+				emp.setEmpId(rs.getInt(1));
 				emp.setName(rs.getString(2));
 				emp.setEmail(rs.getString(3));
 				emp.setFloorSeatSeq(rs.getString(4));
-				
 				empList.add(emp);
 			}
 			
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
-			// Clean up JDBC resources
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+            try {
+                if (rs != null) rs.close();
+                if (callableStatement != null) callableStatement.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 		}
 		return empList;
 	}

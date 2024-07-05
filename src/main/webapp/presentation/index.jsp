@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OaSis Home</title>
+<title>員工座位系統</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -41,13 +41,7 @@
 
 	<h1>員工座位系統</h1>
 	<%
-	SeatService seatSvc = new SeatService();
-	List<SeatVO> seatList = seatSvc.getAll();
 
-	for (SeatVO seat : seatList) {
-		System.out.println(seat);
-		System.out.println("inside for loop");
-	}
 	%>
 
 	<div class="dropdown">
@@ -76,41 +70,8 @@
 	<button type="button" class="btn btn-primary">送出</button>
 
 
-	<script>
-	   $(document).ready(function () {
-		   $.ajax({
-		        url: "/assignment0704/api/employees",
-		        type: "GET",
-		        dataType: "json",
-		        success: function (data) { 
-		        	
-	        		let floorRow = [];
-	        		
-		        	data.forEach((seat)=>{
-		        		let floorSeatSeq = seat.floorSeatSeq;
-		        		let floorNo = seat.floorNo;
-		        		let seatNo = seat.seatNo;
-		        		console.log(floorSeatSeq);
-		        		
-		        		if(floorRow.includes(floorNo)){
-		        			console.log("in if block");
-		        		}else{
-		        			// add floor
-							addFloorToChart(floorRow, floorNo);
-		        		}
-		        	})
-		        	
-		        	data.forEach((seat)=>{
-		        		addSeatToChart(seat.floorNo,seat.seatNo);
-		        	})
-	        },
-		        error: function (xhr, status, error) {
-		          console.error('AJAX request failed:', error);
-		        }
-		      });
-		    });
-	</script>
 
+	<!-- drawing seating chart -->
 	<script>
 	
 	function addFloorToChart(floorRow,floorNo){
@@ -123,15 +84,13 @@
 	
 	function addSeatToChart(floorNo, seatNo){
 		
-		let seatDivStr = "<div class='seat btn btn-secondary' data-seat=\"" + seatNo + "\">" + floorNo + seatNo + "</div>";
+		let text = floorNo + "樓: 座位" + seatNo;
+		let seatDivStr = "<div class='seat btn btn-secondary' data-seat=\"" + seatNo + "\">" + text + "</div>";
 		let seatDiv = $(seatDivStr);
 		
 		let selector = ".floorContainer[data-floor='" + floorNo + "']";
 		$(selector).append(seatDiv);
 		
-		$(".floorContainer[data-floor='5']").text("hi");
-		
-		console.log("func addSeatToChart execute");
 	}
 	
    $(document).ready(function () {
@@ -147,19 +106,18 @@
 	        		let floorSeatSeq = seat.floorSeatSeq;
 	        		let floorNo = seat.floorNo;
 	        		let seatNo = seat.seatNo;
-	        		console.log(floorSeatSeq);
 	        		
 	        		if(floorRow.includes(floorNo)){
-	        			console.log("in if block");
+	        			addSeatToChart(seat.floorNo,seat.seatNo);
 	        		}else{
 	        			// add floor
 						addFloorToChart(floorRow, floorNo);
+						addSeatToChart(seat.floorNo,seat.seatNo);
 	        		}
 	        	})
 	        	
-	        	data.forEach((seat)=>{
-	        		addSeatToChart(seat.floorNo,seat.seatNo);
-	        	})
+	        	insertDbEmpToSeat();
+	        	
         },
 	        error: function (xhr, status, error) {
 	          console.error('AJAX request failed:', error);
@@ -168,6 +126,44 @@
 	    });
 
    </script>
+   
+   <!-- insert emp seating info already in db -->
+   	<script>
+   	
+   	function insertDbEmpToSeat(){   		
+		   $.ajax({
+		        url: "/assignment0704/api/employees",
+		        type: "GET",
+		        dataType: "json",
+		        success: function (data) {
+		        	console.log("emp ajax respose success");
+		        	console.log(data);
+	        		
+		        	data.forEach((emp)=>{
+		        		let empId = emp.empId;
+		        		let floorSeatSeq = emp.floorSeatSeq;
+		        		if(floorSeatSeq){
+							let floorNo = floorSeatSeq.split('-')[0];
+							let seatNo = floorSeatSeq.split('-')[1];
+							
+							let selector = ".floorContainer[data-floor='" + floorNo + "'] .seat[data-seat='" + seatNo + "']";
+							let seat = $(selector);
+							
+							seat.removeClass("btn-secondary");
+							seat.addClass("btn-danger");
+							
+							let text = floorNo + "樓: 座位" + seatNo +"[員編:" + empId + "]"
+							seat.text(text);
+		        		}
+		        		console.log("");
+		        	})
+	        },
+		        error: function (xhr, status, error) {
+		          console.error('AJAX request failed:', error);
+		        }
+		      });
+   	}
+	</script>
 
 </body>
 </html>
