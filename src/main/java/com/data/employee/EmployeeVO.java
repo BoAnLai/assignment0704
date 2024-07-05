@@ -5,16 +5,7 @@ public class EmployeeVO implements java.io.Serializable{
 	private Integer employeeId;
 	private String name;
 	private String email;
-	private String floorSeatSeq;
-	
-	public static void main(String args[]) {
-		
-		EmployeeVO emp = new EmployeeVO();
-		System.out.println(emp);
-		
-	}
-	
-	
+	private String floorSeatSeq;	
 	
 	public EmployeeVO() {
 		super();

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.data.employee.*"%>
+<%@ page import="com.data.seatingChart.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,11 +20,11 @@
 
 	<h1>hello assignment0704</h1>
 	<% 
-		EmployeeService empSvc = new EmployeeService();
-		List<EmployeeVO> empList = empSvc.getAll();
+		SeatService seatSvc = new SeatService();
+		List<SeatVO> seatList = seatSvc.getAll();
 
-		for(EmployeeVO emp:empList){
-			System.out.println(emp);
+		for(SeatVO seat:seatList){
+			System.out.println(seat);
 			System.out.println("inside for loop");			
 		}
 	%>	
