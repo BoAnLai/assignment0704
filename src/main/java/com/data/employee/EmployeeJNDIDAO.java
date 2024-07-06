@@ -14,30 +14,22 @@ import javax.sql.DataSource;
 
 public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/assignment0704");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+	private Connection con;
+	
+	public EmployeeJNDIDAO(Connection con) {
+		this.con = con;
 	}
-
 	
 	@Override
 	public List<EmployeeVO> getAll() {
-		// TODO Auto-generated method stub
 		List<EmployeeVO> empList = new ArrayList();
 		EmployeeVO emp = null;
-		Connection con = null;
 
 		CallableStatement callableStatement = null;
 		String sql = "{CALL get_all_employee}";
 		ResultSet rs = null;
 
 		try {
-			con = ds.getConnection();
 			callableStatement = con.prepareCall(sql);
 			rs = callableStatement.executeQuery();
 
@@ -58,8 +50,6 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 					rs.close();
 				if (callableStatement != null)
 					callableStatement.close();
-				if (con != null)
-					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -70,14 +60,11 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 	
 	@Override
 	public void removeSeat(String floorSeatSeq) {
-		// TODO Auto-generated method stub
-		Connection con = null;
 
 		CallableStatement callableStatement = null;
 		String sql = "{CALL remove_employee_seat(?)}";
 
 		try {
-			con = ds.getConnection();
 			callableStatement = con.prepareCall(sql);
 
 			callableStatement.setString(1, floorSeatSeq);
@@ -89,8 +76,6 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 			try {
 				if (callableStatement != null)
 					callableStatement.close();
-				if (con != null)
-					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -100,13 +85,11 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 	
 	@Override
 	public void setSeat(Integer empId, String floorSeatSeq) {
-		Connection con = null;
 
 		CallableStatement callableStatement = null;
 		String sql = "{CALL set_employee_seat(?,?)}";
 
 		try {
-			con = ds.getConnection();
 			callableStatement = con.prepareCall(sql);
 
 			callableStatement.setInt(1, empId);
@@ -119,8 +102,6 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 			try {
 				if (callableStatement != null)
 					callableStatement.close();
-				if (con != null)
-					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -130,13 +111,11 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 	
 	@Override
 	public void cleanSeatIfOccupied(String floorSeatSeq) {
-		Connection con = null;
 
 		CallableStatement callableStatement = null;
 		String sql = "{CALL clean_seat_if_occupied(?)}";
 
 		try {
-			con = ds.getConnection();
 			callableStatement = con.prepareCall(sql);
 
 			callableStatement.setString(1, floorSeatSeq);
@@ -148,8 +127,6 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 			try {
 				if (callableStatement != null)
 					callableStatement.close();
-				if (con != null)
-					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
