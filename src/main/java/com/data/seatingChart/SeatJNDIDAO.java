@@ -14,30 +14,23 @@ import javax.sql.DataSource;
 
 public class SeatJNDIDAO implements SeatDAO_interface{
 
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/assignment0704");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+	private Connection con;
+	
+	public SeatJNDIDAO(Connection con) {
+		this.con = con;
 	}
 	
 	@Override
 	public List<SeatVO> getAll() {
-		// TODO Auto-generated method stub
 		
 		List<SeatVO> seatList = new ArrayList();
 		SeatVO seat = null;
-		Connection con = null;
 
 		CallableStatement callableStatement = null;
 		String sql = "{CALL get_all_seat}";
 		ResultSet rs = null;
 		
 		try {
-			con = ds.getConnection();
 			callableStatement = con.prepareCall(sql);
 			rs = callableStatement.executeQuery();
 			
@@ -55,7 +48,6 @@ public class SeatJNDIDAO implements SeatDAO_interface{
             try {
                 if (rs != null) rs.close();
                 if (callableStatement != null) callableStatement.close();
-                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
