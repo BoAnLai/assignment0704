@@ -17,7 +17,7 @@ import com.data.employee.EmployeeVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @MultipartConfig
-@WebServlet(name = "Employee", urlPatterns = { "/api/employees", "/api/employee/setSeat" })
+@WebServlet(name = "Employee", urlPatterns = { "/api/employees", "/api/employee/seat" })
 public class Employee extends HttpServlet {
 
 	
@@ -46,7 +46,7 @@ public class Employee extends HttpServlet {
 	
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		if (req.getServletPath().equals("/api/employee/setSeat")) {
+		if (req.getServletPath().equals("/api/employee/seat")) {
 
 			EmployeeService empSvc = new EmployeeService();
 

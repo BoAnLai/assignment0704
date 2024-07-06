@@ -43,7 +43,7 @@ function addSubmitEventListener(){
 		}
 		
 		$.ajax({
-			url: "/assignment0704/api/employee/setSeat",
+			url: "/assignment0704/api/employee/seat",
 			type: "POST",
 			data: jsonForSubmit,
 			dataType: "json",
