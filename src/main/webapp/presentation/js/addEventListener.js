@@ -49,6 +49,7 @@ function addSubmitEventListener(){
 			dataType: "json",
 			success: function(data) {
 				resetSeatingChart();
+				seatSelected = "";
 			},
 			error: function(xhr, status, error) {
 				console.error('AJAX request failed:');

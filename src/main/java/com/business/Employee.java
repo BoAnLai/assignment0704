@@ -65,19 +65,7 @@ public class Employee extends HttpServlet {
 				empSvc.setSeat(empId, floorSeatSeq);
 			}
 
-			List<EmployeeVO> empList = empSvc.getAll();
-			ObjectMapper objMapper = new ObjectMapper();
-
-			try {
-				String json = objMapper.writeValueAsString(empList);
-
-				res.setContentType("application/json");
-				PrintWriter out = res.getWriter();
-				out.print(json);
-				out.flush();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			res.sendRedirect(req.getContextPath() + "/api/employees");
 		}
 	}
 }
