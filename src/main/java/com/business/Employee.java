@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.common.XSSFilter;
 import com.data.employee.EmployeeService;
 import com.data.employee.EmployeeVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebServlet(name = "Employee", urlPatterns = { "/api/employees", "/api/employee/setSeat" })
 public class Employee extends HttpServlet {
 
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		if (req.getServletPath().equals("/api/employees")) {
@@ -41,16 +43,15 @@ public class Employee extends HttpServlet {
 		}
 	}
 
+	
+	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if (req.getServletPath().equals("/api/employee/setSeat")) {
 
 			EmployeeService empSvc = new EmployeeService();
 
-			String action = req.getParameter("action");
-			String floorSeatSeq = req.getParameter("seatSelected");
-
-			System.out.println(action);
-			System.out.println(floorSeatSeq);
+			String action = XSSFilter.filter(req.getParameter("action"));
+			String floorSeatSeq = XSSFilter.filter(req.getParameter("seatSelected"));
 
 			if (action.isEmpty() || floorSeatSeq.isEmpty()) {
 				res.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);

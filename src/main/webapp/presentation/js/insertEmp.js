@@ -26,7 +26,6 @@ function insertEmpToDropdown(){
 }
 
 function insertEmpToSeat() {
-	console.log("call insertEmpToSeat()");
 	$.ajax({
 		url: "/assignment0704/api/employees",
 		type: "GET",

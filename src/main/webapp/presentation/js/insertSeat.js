@@ -7,8 +7,6 @@ function clearSeatingChartContainer(){
 }
 
 function insertSeatingChart(){
-	console.log("call insertSeatingChart()");
-	
 	$.ajax({
 	     url: "/assignment0704/api/seatingChart",
 	     type: "GET",

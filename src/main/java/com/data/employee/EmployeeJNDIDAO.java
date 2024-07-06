@@ -24,6 +24,7 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 		}
 	}
 
+	
 	@Override
 	public List<EmployeeVO> getAll() {
 		// TODO Auto-generated method stub
@@ -66,6 +67,7 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 		return empList;
 	}
 
+	
 	@Override
 	public void removeSeat(String floorSeatSeq) {
 		// TODO Auto-generated method stub
@@ -81,8 +83,6 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 			callableStatement.setString(1, floorSeatSeq);
 			callableStatement.executeUpdate();
 
-			System.out.println("successful remove seat in dao 82");
-
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -97,6 +97,7 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 		}
 	}
 
+	
 	@Override
 	public void setSeat(Integer empId, String floorSeatSeq) {
 		Connection con = null;
@@ -126,6 +127,7 @@ public class EmployeeJNDIDAO implements EmployeeDAO_interface {
 		}
 	}
 
+	
 	@Override
 	public void cleanSeatIfOccupied(String floorSeatSeq) {
 		Connection con = null;
