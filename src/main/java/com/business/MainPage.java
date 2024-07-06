@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @MultipartConfig
-@WebServlet(name = "MainPage", urlPatterns = {"/index","/*"})
+@WebServlet(name = "MainPage", urlPatterns = { "/index" })
 public class MainPage extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		req.setAttribute("baseUrl", req.getContextPath() + "/presentation/");
 		req.getRequestDispatcher("/presentation/index.jsp").forward(req, res);
 	}
-	
+
 }

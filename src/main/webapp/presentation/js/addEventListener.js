@@ -5,7 +5,8 @@ var action = ""; //empId or "清空座位"
 var seatSelected = "";
 
 function addDropdownEventListener(){
-	$('.dropdown-item').click(function() {
+	$('.dropdown-item').click(function(event) {
+		event.preventDefault();
 	    action = $(this).text();		
 		$("#selectEmp").text(action);
 	});	
